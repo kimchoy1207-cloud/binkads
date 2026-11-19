@@ -1,0 +1,107 @@
+<title>경기정보통신 CCTV 전단 시안</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700;900&display=swap">
+<style>
+/* 레이아웃: 시안 30장을 A4 비율 카드로 그리드 배치, 카드마다 6가지 구성 x 팔레트 */
+:root{--bg:#eceef1;--fg:#1b1f26;--muted:#5b6370;--card:#fff;--line:#d5d9df;
+--disp:"Black Han Sans","Noto Sans KR",sans-serif;--body:"Noto Sans KR",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15181d;--fg:#e8ebef;--muted:#9aa3ae;--card:#20242b;--line:#333943;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#15181d;--fg:#e8ebef;--muted:#9aa3ae;--card:#20242b;--line:#333943;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body)}
+.wrap{max-width:1400px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header h1{font-family:var(--disp);font-size:2rem;margin:0 0 6px;font-weight:400}
+header p{color:var(--muted);margin:0 0 24px;max-width:70ch;line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px}
+.item{display:flex;flex-direction:column;gap:8px;min-width:0}
+.meta{font-size:13px;color:var(--muted);line-height:1.5}
+.meta b{color:var(--fg);font-size:14px}
+/* 전단 자체는 인쇄물이라 테마와 무관하게 고정색 */
+.f{aspect-ratio:210/297;max-width:100%;container-type:inline-size;position:relative;overflow:hidden;border-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,.15);display:flex;flex-direction:column;color:var(--ink);background:var(--paper);font-family:var(--body)}
+.f .h{font-family:var(--disp);line-height:1.12;letter-spacing:-.01em;text-wrap:balance}
+.f .tag{display:inline-block;font-weight:900;font-size:4.2cqi;padding:1.2cqi 3cqi;background:var(--acc);color:var(--accInk);border-radius:1cqi}
+.f ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2cqi}
+.f li{font-size:4.6cqi;font-weight:700;line-height:1.35;display:flex;gap:2cqi}
+.f li::before{content:"✔";color:var(--acc2)}
+.f .foot{margin-top:auto;background:var(--footBg);color:var(--footInk);padding:4cqi 5cqi;display:flex;flex-direction:column;gap:1cqi}
+.f .brand{font-weight:900;font-size:4.6cqi}
+.f .tel{font-family:var(--disp);font-size:10.5cqi;line-height:1}
+.f .small{font-size:3.2cqi;opacity:.85}
+.f .body{padding:6cqi 5cqi;display:flex;flex-direction:column;gap:4cqi;flex:1}
+.f .big{font-size:11cqi}.f .mid{font-size:7.5cqi}.f .sub{font-size:4.8cqi;font-weight:700;line-height:1.45}
+.f .cam{width:34cqi;align-self:center}
+.f .vs{display:grid;grid-template-columns:1fr 1fr;gap:2cqi;font-size:4cqi;font-weight:700}
+.f .vs div{padding:3cqi;border-radius:2cqi;text-align:center;line-height:1.4}
+.f .vs .a{background:rgba(0,0,0,.07)}.f .vs .b{background:var(--acc);color:var(--accInk)}
+.f .stamp{position:absolute;right:4cqi;top:4cqi;width:26cqi;height:26cqi;border-radius:50%;border:1.2cqi solid var(--acc2);color:var(--acc2);display:grid;place-items:center;text-align:center;font-weight:900;font-size:4.2cqi;transform:rotate(-12deg);line-height:1.15}
+.f .band{background:var(--acc);color:var(--accInk);padding:5cqi;}
+.f .q{font-size:5.4cqi;font-weight:900;line-height:1.4;border-left:1.4cqi solid var(--acc2);padding-left:3cqi}
+.f .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqi;text-align:center}
+.f .steps div{background:rgba(0,0,0,.06);border-radius:2cqi;padding:3cqi 1cqi;font-size:3.8cqi;font-weight:700;line-height:1.35}
+.f .steps b{display:block;font-family:var(--disp);font-size:7cqi;color:var(--acc2);font-weight:400}
+.f .tear{display:grid;grid-template-columns:repeat(6,1fr);border-top:.5cqi dashed currentColor;margin-top:auto}
+.f .tear span{writing-mode:vertical-rl;font-size:3cqi;font-weight:700;padding:2cqi 0;border-right:.5cqi dashed currentColor;text-align:center;height:24cqi}
+</style>
+<div class="wrap">
+<header><h1>경기정보통신 CCTV 전단 시안 30종</h1>
+<p>시니어 대상 부착용 전단. 소구는 세 축(가입 절차 없음 · 저렴한 비용 · 대기업 납품사 품질)을 시안마다 다르게 앞세웠습니다. 전화번호·가격은 자리표시용이니 실제 값으로 바꿔 주세요.</p></header>
+<div class="grid" id="g"></div></div>
+<script>
+const P={ // paper, ink, acc, accInk, acc2, footBg, footInk
+ navy:["#ffffff","#13233f","#13233f","#fff","#e0362c","#13233f","#fff"],
+ yellow:["#ffd400","#111","#111","#ffd400","#d0021b","#111","#ffd400"],
+ red:["#fff7f0","#1a1a1a","#d0021b","#fff","#d0021b","#d0021b","#fff"],
+ green:["#f2f8f3","#173a24","#1f7a3d","#fff","#1f7a3d","#173a24","#fff"],
+ black:["#111418","#fff","#ffd400","#111","#ffd400","#ffd400","#111"],
+ sky:["#e9f3ff","#0e2a4d","#0a66c2","#fff","#0a66c2","#0e2a4d","#fff"],
+ cream:["#fbf6ea","#3b2a14","#8a5a1a","#fff","#b8461b","#3b2a14","#fbf6ea"],
+ orange:["#ff6a13","#fff","#fff","#ff6a13","#fff","#1a1a1a","#fff"],
+ gray:["#f4f5f7","#1d2330","#1d2330","#fff","#e0362c","#e0362c","#fff"],
+ teal:["#e6f5f3","#0b3b38","#0f8a7e","#fff","#0f8a7e","#0b3b38","#fff"]};
+const TEL="031-000-0000";
+const cam=c=>`<svg class="cam" viewBox="0 0 120 70"><rect x="8" y="14" width="80" height="34" rx="8" fill="${c}"/><circle cx="88" cy="31" r="15" fill="${c}"/><circle cx="88" cy="31" r="8" fill="#fff"/><circle cx="88" cy="31" r="4" fill="${c}"/><rect x="34" y="48" width="10" height="16" fill="${c}"/><rect x="18" y="62" width="44" height="6" rx="3" fill="${c}"/><circle cx="20" cy="24" r="3" fill="#e0362c"/></svg>`;
+const foot=(t)=>`<div class="foot"><div class="brand">경기정보통신 · 자세 프랜드</div><div class="tel">☎ ${TEL}</div><div class="small">${t||"전화 한 통이면 상담 끝 · 방문 견적 무료"}</div></div>`;
+const L={
+ A:d=>`<div class="body"><span class="tag">${d.tag}</span><div class="h big">${d.h}</div><div class="sub">${d.s}</div>${cam("var(--acc)")}<ul>${d.p.map(x=>`<li>${x}</li>`).join("")}</ul></div>${foot(d.f)}`,
+ B:d=>`<div class="band"><div class="h big">${d.h}</div></div><div class="body"><div class="sub">${d.s}</div><div class="vs"><div class="a">${d.v[0]}</div><div class="b">${d.v[1]}</div></div><ul>${d.p.map(x=>`<li>${x}</li>`).join("")}</ul></div>${foot(d.f)}`,
+ C:d=>`<div class="stamp">${d.st}</div><div class="body"><span class="tag" style="align-self:flex-start">${d.tag}</span><div class="h big" style="padding-right:22cqi">${d.h}</div><div class="q">${d.s}</div><ul>${d.p.map(x=>`<li>${x}</li>`).join("")}</ul></div>${foot(d.f)}`,
+ D:d=>`<div class="body"><div class="h mid">${d.h}</div><div class="sub">${d.s}</div><div class="steps">${d.p.map((x,i)=>`<div><b>${i+1}</b>${x}</div>`).join("")}</div>${cam("var(--acc)")}</div>${foot(d.f)}`,
+ E:d=>`<div class="body" style="justify-content:center;text-align:center;align-items:center"><div class="h" style="font-size:16cqi">${d.h}</div><div class="sub">${d.s}</div><span class="tag">${d.tag}</span></div>${foot(d.f)}`,
+ F:d=>`<div class="body"><span class="tag" style="align-self:flex-start">${d.tag}</span><div class="h big">${d.h}</div><div class="sub">${d.s}</div><ul>${d.p.map(x=>`<li>${x}</li>`).join("")}</ul></div><div class="tear">${Array(6).fill(`<span>경기정보통신 ${TEL}</span>`).join("")}</div>`
+};
+const D=[
+["가입 없음","무료 견적","A","navy","가입서 쓰고, 약정 걸고…<br>그런 거 없습니다","도장도, 서류도, 3년 약정도 필요 없어요. 전화 한 통이면 설치 끝.",["복잡한 가입 절차 없음","위약금 걱정 없음","설치 후 바로 휴대폰으로 확인"]],
+["가격","대기업 vs 우리","B","yellow","같은 화질,<br>요금은 절반","대기업 통신사 CCTV와 비교해 보세요.",["매달 나가는 돈 부담 끝","설치비 투명 공개","추가 요금 없음"],null,["통신사 CCTV<br>약정 3년 + 월 요금","경기정보통신<br>약정 없이 저렴하게"]],
+["납품사 신뢰","대기업 납품사","C","gray","대기업에 납품하는<br>바로 그 회사","유명 통신사 CCTV, 사실 이런 회사가 만들고 설치합니다.",["대기업 납품 실적 보유","같은 장비 · 같은 기술","중간 유통비만 뺐습니다"],"대기업<br>납품<br>업체"],
+["간편 3단계","절차 간단","D","green","전화 → 방문 → 설치<br>이게 전부입니다","어려운 앱 가입, 본인인증 없어요.",["전화 한 통","무료 방문 견적","당일 설치"]],
+["임팩트","한 줄 소구","E","black","가입<br>없이<br>CCTV","약정 없이 · 서류 없이 · 저렴하게","대기업 납품사 경기정보통신"],
+["뜯는 번호표","부착형","F","yellow","CCTV 필요하세요?<br>번호 떼어 가세요","가입 절차 없이, 저렴하게. 대기업 납품사가 직접 설치합니다.",["약정 · 위약금 없음","대기업과 같은 성능","무료 견적"]],
+["자녀 걱정","가족 안심","A","sky","멀리 사는 자녀도<br>휴대폰으로 안심","부모님 댁 현관, 가게 앞. 자녀분 휴대폰으로 실시간 확인.",["설정은 저희가 다 해드립니다","어려운 조작 없음","가입 없이 바로 사용"]],
+["가게 사장님","소상공인","B","red","가게 지키는 데<br>큰돈 쓰지 마세요","통신사 CCTV 월 요금 아까우셨죠?",["야간 도난 대비","카운터 · 창고 · 출입구","저렴한 설치비"],null,["월 요금 계속","한 번 설치로 끝"]],
+["어르신 말투","쉬운 말","C","cream","어르신, 복잡한 거<br>하나도 없어요","\"가입해라, 인증해라\" 그런 거 안 합니다. 기사가 와서 다 해드려요.",["전화만 주시면 됩니다","설치 · 설정 다 해드림","궁금하면 언제든 전화"],"쉽고<br>간단"],
+["비교표","성능 동일","B","navy","성능은 대기업과<br>똑같습니다","같은 공장, 같은 기술. 다른 건 가격뿐입니다.",["고화질 200만 화소 이상","야간 적외선 촬영","휴대폰 원격 확인"],null,["대기업 브랜드<br>비싼 요금","경기정보통신<br>같은 성능 · 저렴"]],
+["약정 해방","위약금 없음","E","orange","약정<br>없음","3년 묶이지 마세요. 마음 편히 쓰세요.","위약금 0원"],
+["지역 밀착","동네 업체","A","green","우리 동네 CCTV는<br>동네 업체가 빠릅니다","경기도 전 지역 직접 방문. 고장 나면 바로 달려갑니다.",["빠른 출동 A/S","직접 설치 · 직접 관리","가입 절차 없음"]],
+["질문형","공감","C","gray","CCTV 달려다<br>가입서 보고<br>포기하셨나요?","이제 그런 거 필요 없습니다.",["서류 없음","약정 없음","대기업 납품사 품질"],"서류<br>0장"],
+["가격 강조","월 부담 0","E","yellow","월 요금<br>걱정 끝","대기업 납품사 장비를 합리적인 가격에","무료 견적 상담"],
+["밤에도 선명","야간 화질","B","black","밤에도<br>얼굴까지 선명하게","대기업 제품과 같은 야간 적외선 카메라.",["어두운 골목도 또렷","비 오는 날도 OK","24시간 녹화"],null,["흐릿한 저가 제품","대기업급 선명 화질"]],
+["설치 당일","빠른 설치","D","sky","오늘 전화하면<br>오늘 설치","기다리게 하지 않습니다.",["오전 전화","오후 방문","저녁엔 확인 끝"]],
+["안심 보장","A/S 강조","A","teal","설치하고 끝?<br>아닙니다","고장 나면 바로 와서 고쳐 드립니다. 대기업 납품 기준 그대로 관리합니다.",["무상 A/S 기간 제공","전화 한 통 출동","기사 직접 방문"]],
+["전단 체크리스트","체크형","F","navy","이 중 하나라도<br>해당되면 전화주세요","",["가입 절차가 귀찮다","통신사 요금이 비싸다","성능은 좋았으면 한다"]],
+["주택·빌라","주거 안전","A","cream","현관 앞 택배,<br>이제 안심하세요","주택 · 빌라 · 농가 어디든 설치합니다.",["택배 분실 예방","낯선 사람 확인","가입 없이 바로 설치"]],
+["공장·창고","사업장","B","gray","창고 · 공장<br>넓어도 저렴하게","카메라 대수 많아도 대기업 대비 확 줄어든 비용.",["넓은 구역 다채널","원격으로 한눈에","대기업 납품 기술"],null,["대수만큼 오르는 요금","합리적 일괄 견적"]],
+["숫자 소구","간결","E","red","전화<br>1통","가입 없이, 서류 없이, 바로 설치","대기업 납품사"],
+["농촌","농가 맞춤","A","green","밭 · 축사 · 창고<br>도둑 걱정 끝","농기계 · 농작물 도난 대비. 멀리서도 휴대폰으로 확인.",["넓은 마당도 OK","야간 적외선","가입 절차 없음"]],
+["정직 선언","신뢰","C","navy","거품 뺀 가격,<br>정직하게 받습니다","광고비 · 유통비 대신 장비와 설치에 씁니다.",["견적 그대로 시공","숨은 비용 없음","대기업 납품 품질"],"정직<br>견적"],
+["자녀가 권함","자녀 메시지","C","sky","\"엄마, 이거 하나<br>달아드릴게요\"","부모님 댁 안전, 비싸게 하지 마세요.",["부모님은 아무것도 안 하셔도 됨","자녀 휴대폰으로 확인","약정 없음"],"효도<br>선물"],
+["이웃 추천","입소문","A","orange","옆집도 달았습니다","동네 어르신들이 먼저 찾는 이유, 쉽고 저렴해서입니다.",["가입 없이 설치","친절한 설명","대기업과 같은 장비"]],
+["교체 권유","기존 고객","B","teal","오래된 CCTV<br>바꿀 때 됐습니다","흐릿한 화면, 고장 잦은 녹화기. 이참에 바꾸세요.",["기존 선 재활용 가능","최신 고화질","저렴한 교체비"],null,["흐릿한 옛날 화면","대기업급 고화질"]],
+["큰 글씨","가독성 최우선","E","black","CCTV<br>싸게<br>쉽게","대기업 납품사가 직접 설치합니다","약정 없음"],
+["Q&A","궁금증 해소","D","cream","자주 묻는 질문<br>딱 세 가지","어르신들이 가장 많이 물으시는 것.",["가입해야<br>하나요?<br>→ 아니요","비싸지<br>않나요?<br>→ 저렴해요","성능<br>괜찮나요?<br>→ 대기업과 동일"]],
+["안전 경고형","경각심","C","yellow","요즘 빈집털이<br>늘고 있습니다","미리 대비하세요. 비싸지 않습니다.",["현관 · 창문 감시","휴대폰 알림","가입 절차 없음"],"방범<br>필수"],
+["종합형","3대 소구","A","red","쉽다 · 싸다 · 좋다","CCTV, 이제 고민하지 마세요.",["쉽다 : 가입 절차 없음","싸다 : 대기업보다 저렴","좋다 : 대기업 납품사 성능"]],
+];
+document.getElementById("g").innerHTML=D.map((r,i)=>{const[nm,tg,lay,pal,h,s,p,st,v]=r;const c=P[pal];
+const d={h,s,p:Array.isArray(p)?p:[],tag:Array.isArray(p)?tg:p,st,v};
+const style=`--paper:${c[0]};--ink:${c[1]};--acc:${c[2]};--accInk:${c[3]};--acc2:${c[4]};--footBg:${c[5]};--footInk:${c[6]}`;
+return `<div class="item"><div class="meta"><b>${String(i+1).padStart(2,"0")}. ${nm}</b> · ${tg}</div><div class="f" style="${style}">${L[lay](d)}</div></div>`}).join("");
+</script>
