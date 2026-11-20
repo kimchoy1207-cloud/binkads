@@ -1,231 +1,49 @@
 <title>경기정보통신 CCTV 전단 시안</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
-@font-face{font-family:"Dohyeon";src:url(fonts/BMDOHYEON.woff2) format("woff2");font-display:swap}
-@font-face{font-family:"Hanna";src:url(fonts/BMHANNAPro.woff2) format("woff2");font-display:swap}
-@font-face{font-family:"Pretendard";font-weight:600;src:url(fonts/Pretendard-SemiBold.woff2) format("woff2");font-display:swap}
-@font-face{font-family:"Pretendard";font-weight:800;src:url(fonts/Pretendard-ExtraBold.woff2) format("woff2");font-display:swap}
-@font-face{font-family:"Pretendard";font-weight:900;src:url(fonts/Pretendard-Black.woff2) format("woff2");font-display:swap}
-/* 레이아웃: 레퍼런스 10가지 포스터 문법 x 3시안 = 30장, A4 카드 그리드 */
-:root{--bg:#e9eaec;--fg:#16191e;--muted:#5d6470;--chip:#fff;--sans:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171b;--fg:#e9ecef;--muted:#9aa3ae;--chip:#22262c;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#14171b;--fg:#e9ecef;--muted:#9aa3ae;--chip:#22262c;color-scheme:dark}
-body{background:var(--bg);color:var(--fg);font-family:var(--sans)}
+:root{--bg:#eceef1;--fg:#15181d;--muted:#5d6470;--card:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171b;--fg:#e9ecef;--muted:#9aa3ae;--card:#20242b;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14171b;--fg:#e9ecef;--muted:#9aa3ae;--card:#20242b;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif}
 .wrap{max-width:1400px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-h1{font-size:2rem;font-weight:900;letter-spacing:-.03em;margin:0 0 8px}
-.lead{color:var(--muted);line-height:1.65;max-width:72ch;margin:0 0 20px}
-.refs{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin:0 0 32px;padding:0;list-style:none}
-.refs li{background:var(--chip);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.5;color:var(--muted)}
-.refs b{display:block;color:var(--fg);font-size:14px;margin-bottom:2px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px}
-.item{display:flex;flex-direction:column;gap:8px;min-width:0}
-.meta{font-size:13px;color:var(--muted)}.meta b{color:var(--fg)}
-
-/* ---- 포스터 공통 (인쇄물: 고정색) ---- */
-.f{aspect-ratio:210/297;max-width:100%;container-type:inline-size;position:relative;overflow:hidden;border-radius:3px;box-shadow:0 3px 14px rgba(0,0,0,.18);font-family:var(--sans);color:var(--ink);background:var(--paper);word-break:keep-all;line-height:1.2}
-.f *{box-sizing:border-box}
-.f .abs{position:absolute}
-.f .brand,.f .tel{width:fit-content}
-.L10 .seal{position:absolute;right:4cqi;bottom:30cqi}
-.L7 .bot{align-items:flex-start!important}
-.L7 .band{bottom:31cqi!important}
-.f .qr{position:absolute;right:5cqi;bottom:5cqi;z-index:6;width:19cqi;background:#fff;padding:1.2cqi;border-radius:1.6cqi;box-shadow:0 .6cqi 2cqi rgba(0,0,0,.25);text-align:center;color:#111}
-.f .qr img{width:100%;height:auto;object-fit:contain}
-.f .qr b{display:block;font-size:2.2cqi;font-weight:900;letter-spacing:-.03em;margin-top:.6cqi;line-height:1.2;font-size:2.6cqi!important}
-.f .cam{position:absolute;z-index:4;filter:drop-shadow(0 1.6cqi 1.8cqi rgba(0,0,0,.35));pointer-events:none}
-.f .cam img{width:100%;height:auto;object-fit:contain}
-.f img{display:block;width:100%;height:100%;object-fit:cover;max-width:none}
-.f .brand{font-weight:900;font-size:3.4cqi;letter-spacing:-.02em}
-.f .brand small{font-weight:600;opacity:.7;margin-left:1.2cqi;font-size:2.8cqi}
-.f .tel{font-family:"Dohyeon",var(--sans);font-size:9cqi;line-height:1;white-space:nowrap}
-.f .tel s{text-decoration:none;font-family:var(--sans);font-weight:900;font-size:2.7cqi;vertical-align:.9em;margin-right:1.5cqi;padding:.8cqi 1.6cqi;border-radius:5cqi;background:var(--acc);color:var(--accInk)}
-.f .fine{font-size:2.6cqi;font-weight:600;opacity:.75;line-height:1.4}
-.f .pts{display:flex;flex-wrap:wrap;gap:1.4cqi}
-.f .pts span{font-weight:800;font-size:3.3cqi;padding:1.2cqi 2.4cqi;border:.45cqi solid currentColor;border-radius:5cqi}
-.f em{font-style:normal}
-
-/* 1 ECON: 단색 + 거대 타이포 (The Economist 레드 포스터) */
-.L1 .wrapper{position:absolute;inset:0;padding:7cqi;display:flex;flex-direction:column}
-.L1 .k{font-weight:800;font-size:4cqi;letter-spacing:-.02em;opacity:.85}
-.L1 .h{font-weight:900;font-size:var(--hs,19cqi);letter-spacing:-.07em;line-height:.98;margin-top:4cqi}
-.L1 .h em{color:var(--acc2)}
-.L1 .bot{margin-top:auto;border-top:.6cqi solid currentColor;padding-top:3.5cqi;display:flex;flex-direction:column;gap:1.5cqi}
-
-/* 2 SMALL: 여백 + 작은 사진 (VW Think Small) */
-.L2 .ph{position:absolute;left:50%;top:13cqi;width:var(--pw,46cqi);aspect-ratio:3/4;transform:translateX(-50%)}
-.L2 .txt{position:absolute;left:8cqi;right:8cqi;bottom:31cqi}
-.L2 .h{font-weight:900;font-size:7.6cqi;letter-spacing:-.05em;line-height:1.12}
-.L2 .h em{color:var(--acc2)}
-.L2 .s{font-size:3.3cqi;font-weight:600;line-height:1.6;margin-top:3cqi;opacity:.85}
-.L2 .bot{position:absolute;left:8cqi;right:8cqi;bottom:6cqi;display:flex;flex-direction:column;gap:1cqi;border-top:.3cqi solid currentColor;padding-top:3cqi}
-.L2 .tel{font-size:7.2cqi}
-
-/* 3 SHOT: 풀블리드 사진 + 하단 미니멀 카피 (Shot on iPhone) */
-.L3 .ph{position:absolute;inset:0}
-.L3 .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 38%,rgba(0,0,0,.82) 82%)}
-.L3 .txt{position:absolute;left:7cqi;right:7cqi;bottom:7cqi;color:#fff;display:flex;flex-direction:column;gap:2.4cqi}
-.L3 .k{font-weight:800;font-size:3.4cqi;color:#ffd400}
-.L3 .h{font-weight:900;font-size:10cqi;letter-spacing:-.055em;line-height:1.08}
-.L3 .h em{color:#ffd400}
-.L3 .row{display:flex;flex-direction:column;gap:1cqi;border-top:.3cqi solid rgba(255,255,255,.5);padding-top:2.6cqi;margin-top:1.5cqi}
-.L3 .tel{font-size:9cqi}
-.L3 .corner{position:absolute;top:6cqi;left:7cqi;color:#fff;font-weight:900;font-size:3.2cqi;letter-spacing:.02em;text-shadow:0 1px 6px rgba(0,0,0,.5)}
-
-/* 4 SWISS: 거대 숫자 블리드 + 그리드 (스위스 스타일) */
-.L4 .num{position:absolute;right:-6cqi;top:-14cqi;font-weight:900;font-size:var(--ns,88cqi);letter-spacing:-.08em;line-height:1;color:var(--acc)}
-.L4 .vert{position:absolute;left:5cqi;bottom:30cqi;writing-mode:vertical-rl;font-weight:800;font-size:3cqi;letter-spacing:.3em}
-.L4 .ph{position:absolute;left:12cqi;top:70cqi;width:36cqi;height:36cqi}
-.L4 .txt{position:absolute;left:12cqi;right:5cqi;top:70cqi;z-index:2}
-.L4 .num{z-index:0}
-.L4 .h{font-weight:900;font-size:7.4cqi;letter-spacing:-.055em;line-height:1.1;margin-left:40cqi;margin-top:3cqi}
-.L4 .k{font-weight:800;font-size:3.2cqi;margin-left:40cqi;line-height:1.35}
-.L4 .rule{position:absolute;left:12cqi;right:0;height:.35cqi;background:currentColor}
-.L4 .bot{position:absolute;left:12cqi;right:6cqi;bottom:6cqi;display:flex;flex-direction:column;gap:1cqi}
-
-/* 5 BAEMIN: 문장 자체가 그림 - 줄마다 크기를 달리한 꽉 찬 타이포 */
-.L5 .wrapper{position:absolute;inset:0;padding:7cqi 6cqi;display:flex;flex-direction:column}
-.L5 .h{font-family:"Dohyeon",var(--sans);line-height:1.02;letter-spacing:-.02em}
-.L5 .h span{display:block;white-space:nowrap}
-.L5 .h em{color:var(--acc2)}
-.L5 .ph{display:none;width:30cqi;height:30cqi;border-radius:50%;overflow:hidden;position:absolute;right:6cqi;bottom:30cqi;border:1.2cqi solid var(--paper);box-shadow:0 0 0 .5cqi var(--ink)}
-.L5 .bot{margin-top:auto;display:flex;flex-direction:column;gap:1.4cqi}
-
-/* 6 TOSS: 숫자 하나로 말하기 */
-.L6 .wrapper{position:absolute;inset:0;padding:9cqi 8cqi 7cqi;display:flex;flex-direction:column}
-.L6 .k{font-weight:800;font-size:4.2cqi;opacity:.6}
-.L6 .num{font-weight:900;font-size:var(--ns,46cqi);letter-spacing:-.075em;line-height:.9;color:var(--acc);margin:4cqi 0 3cqi -1.5cqi}
-.L6 .num small{font-size:.32em;letter-spacing:-.04em;margin-left:1cqi}
-.L6 .h{font-weight:900;font-size:7.4cqi;letter-spacing:-.05em;line-height:1.15}
-.L6 .s{font-size:3.2cqi;font-weight:600;opacity:.6;margin-top:2.6cqi;line-height:1.55}
-.L6 .ph{position:absolute;right:0;bottom:30cqi;width:34cqi;height:26cqi}
-.L6 .s{max-width:56%}
-.L6 .bot{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;gap:2cqi}
-.L6 .tel{font-size:7.6cqi}
-
-/* 7 MART: 국내 마트 전단 문법 - 버스트, 사선 띠, 기울인 사진 */
-.L7 .burst{position:absolute;right:3cqi;top:4cqi;width:40cqi;height:40cqi;display:grid;place-items:center;z-index:3;transform:rotate(10deg)}
-.L7 .burst svg{position:absolute;inset:0;width:100%;height:100%}
-.L7 .burst b{position:relative;font-family:"Dohyeon",var(--sans);font-weight:400;color:#fff;font-size:10cqi;line-height:.95;text-align:center}
-.L7 .burst b small{display:block;font-family:var(--sans);font-weight:900;font-size:3.4cqi}
-.L7 .k{position:absolute;left:6cqi;top:8cqi;background:#111;color:#fff;z-index:2;font-weight:900;font-size:4cqi;padding:1.4cqi 3cqi;transform:rotate(-3deg)}
-.L7 .h{position:absolute;left:6cqi;right:6cqi;top:18cqi;font-family:"Dohyeon",var(--sans);font-size:15cqi;line-height:1;letter-spacing:-.02em;color:#d0021b;-webkit-text-stroke:.9cqi #fff;paint-order:stroke fill;text-shadow:1.2cqi 1.2cqi 0 #111}
-.L7 .ph{position:absolute;left:9cqi;top:60cqi;width:52cqi;height:44cqi;border:2cqi solid #fff;box-shadow:1.4cqi 1.4cqi 0 rgba(0,0,0,.25);transform:rotate(-4deg)}
-.L7 .list{position:absolute;right:5cqi;top:66cqi;width:32cqi;display:flex;flex-direction:column;gap:1.6cqi}
-.L7 .list span{background:#fff;color:#111;font-weight:900;font-size:3.4cqi;padding:1.6cqi 2cqi;border-left:1.4cqi solid var(--acc2);line-height:1.25}
-.L7 .band{position:absolute;left:-5cqi;right:-5cqi;bottom:21cqi;background:#111;color:#fff;transform:rotate(-3deg);padding:2.4cqi 10cqi;font-weight:900;font-size:4.2cqi;text-align:center;letter-spacing:-.02em}
-.L7 .bot{position:absolute;left:6cqi;right:6cqi;bottom:4cqi;display:flex;flex-direction:column;align-items:center;gap:.6cqi}
-.L7 .tel{font-size:10cqi}
-
-/* 8 OVERLAP: 사진과 겹치는 아웃라인 대형 타이포 */
-.L8 .ph{position:absolute;left:0;right:0;top:0;height:86cqi}
-.L8 .txt{position:absolute;left:5cqi;right:5cqi;top:60cqi;display:flex;flex-direction:column;gap:3cqi}
-.L8 .h{font-weight:900;font-size:var(--hs,17cqi);letter-spacing:-.07em;line-height:.95}
-.L8 .h span{display:block}
-.L8 .h .o{color:transparent;-webkit-text-stroke:.55cqi #fff}
-.L8 .h .f2{color:var(--acc)}
-.L8 .s{padding-left:1cqi;max-width:72%;font-weight:800;font-size:3.8cqi;line-height:1.5}
-.L8 .bot{position:absolute;left:6cqi;right:6cqi;bottom:6cqi;display:flex;flex-direction:column;gap:1cqi;border-top:.35cqi solid currentColor;padding-top:2.6cqi}
-.L8 .tel{font-size:9cqi}
-
-/* 9 SPLIT: 사선 분할 비교 */
-.L9 .left,.L9 .right{position:absolute;inset:0}
-.L9 .left{background:#d9dade;clip-path:polygon(0 0,62% 0,38% 100%,0 100%)}
-.L9 .right{background:var(--acc);clip-path:polygon(62% 0,100% 0,100% 100%,38% 100%)}
-.L9 .ph{position:absolute;left:0;right:0;top:0;height:40cqi;z-index:1}
-.L9 .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.55))}
-.L9 .ttl{position:absolute;left:6cqi;right:6cqi;top:28cqi;z-index:2;color:#fff;font-weight:900;font-size:7.4cqi;letter-spacing:-.05em;line-height:1.1}
-.L9 .col{position:absolute;top:50cqi;width:40cqi;display:flex;flex-direction:column;gap:2.2cqi}
-.L9 .col.a{left:6cqi;color:#555b66}.L9 .col.b{right:6cqi;color:var(--accInk);text-align:right;align-items:flex-end}
-.L9 .col b{font-weight:900;font-size:4.6cqi;letter-spacing:-.03em}
-.L9 .col span{font-weight:800;font-size:3.6cqi;line-height:1.3}
-.L9 .col.a span{text-decoration:line-through;text-decoration-thickness:.5cqi;text-decoration-color:#d0021b}
-.L9 .vs{top:62cqi!important;color:#fff!important;background:#111!important;position:absolute;left:50%;top:76cqi;transform:translate(-50%,-50%);width:16cqi;height:16cqi;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-family:"Dohyeon";font-size:6cqi;z-index:2}
-.L9 .bot{position:absolute;left:0;right:0;bottom:0;background:#111;color:#fff;padding:4cqi 6cqi;display:flex;flex-direction:column;gap:1cqi}
-
-/* 10 LETTER: 손편지 + 폴라로이드 */
-.L10{background:var(--paper) repeating-linear-gradient(0deg,transparent 0 6.2cqi,rgba(90,60,30,.12) 6.2cqi 6.4cqi)}
-.L10 .pol{position:absolute;right:7cqi;top:8cqi;width:44cqi;background:#fff;padding:2.2cqi 2.2cqi 8cqi;box-shadow:0 1.5cqi 3cqi rgba(0,0,0,.22);transform:rotate(5deg)}
-.L10 .pol div{aspect-ratio:1}
-.L10 .pol i{position:absolute;bottom:2.2cqi;left:0;right:0;text-align:center;font-family:"Hanna";font-style:normal;font-size:3.6cqi;color:#555}
-.L10 .tape{position:absolute;right:20cqi;top:5cqi;width:18cqi;height:5cqi;background:rgba(255,236,170,.85);transform:rotate(-8deg);z-index:2}
-.L10 .k{position:absolute;left:7cqi;top:12cqi;width:40cqi;font-family:"Hanna";font-size:4.4cqi;line-height:1.5;color:var(--acc2)}
-.L10 .h{position:absolute;left:7cqi;right:7cqi;top:64cqi;font-family:"Hanna";font-size:var(--hs,10.5cqi);line-height:1.18;letter-spacing:-.02em}
-.L10 .h em{background:linear-gradient(transparent 60%,var(--mk) 60%)}
-.L10 .s{position:absolute;left:7cqi;right:33cqi;top:96cqi;font-family:"Hanna";font-size:4.2cqi;line-height:1.55;opacity:.85}
-.L10 .bot{position:absolute;left:7cqi;right:7cqi;bottom:6cqi;display:flex;justify-content:space-between;align-items:flex-end}
-.L10 .seal{width:22cqi;height:22cqi;border-radius:50%;border:.8cqi solid var(--acc2);color:var(--acc2);display:grid;place-items:center;text-align:center;font-weight:900;font-size:3.2cqi;transform:rotate(-12deg);line-height:1.2}
-.L10 .tel{font-size:8cqi}
+h1{font-size:1.9rem;font-weight:900;letter-spacing:-.03em;margin:0 0 8px}
+p{color:var(--muted);line-height:1.65;max-width:70ch;margin:0 0 28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:28px}
+figure{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+figure img{width:100%;height:auto;border-radius:4px;box-shadow:0 3px 14px rgba(0,0,0,.18);background:var(--card)}
+figcaption{font-size:14px;color:var(--muted)}figcaption b{color:var(--fg);margin-right:4px;font-variant-numeric:tabular-nums}
 </style>
-<div class="wrap">
-<h1>경기정보통신 CCTV 전단 시안 30종</h1>
-<p class="lead">국내외 광고 레퍼런스 10가지의 포스터 문법을 가져와 각각 3장씩 변주했습니다. 시니어 대상이라 어떤 구성에서도 핵심 문장과 전화번호는 크게 남겼습니다. QR을 휴대폰 카메라로 찍으면 1522-1201로 바로 전화가 걸립니다. 수치 표현은 근거 확인이 필요합니다.</p>
-<ul class="refs" id="refs"></ul>
-<div class="grid" id="g"></div></div>
-<script>
-const TEL="1522-1201",BR=`경기정보통신 CCTV<small>자세 프랜드</small>`;
-const CAMPOS={1:"right:-4cqi;top:60cqi;width:44cqi",2:"left:56cqi;top:36cqi;width:36cqi",3:"right:4cqi;top:5cqi;width:30cqi",4:"right:3cqi;top:24cqi;width:40cqi",5:"right:3cqi;bottom:34cqi;width:36cqi",6:"right:-3cqi;top:12cqi;width:52cqi",7:"left:39cqi;top:44cqi;width:28cqi",8:"right:3cqi;top:5cqi;width:32cqi",9:"left:28cqi;top:84cqi;width:44cqi",10:"left:6cqi;top:36cqi;width:34cqi"};
-const CAMS=["c_dome","c_bullet_w","c_ptz","c_bullet_b","c_set"];
-const P={ // paper ink acc accInk acc2 mk
- red:["#e3120b","#fff","#fff","#e3120b","#ffd84d","#ffd84d"],
- navy:["#0f1e3c","#fff","#ffd400","#0f1e3c","#ffd400","#ffd400"],
- white:["#ffffff","#121417","#d0021b","#fff","#d0021b","#ffe14d"],
- ivory:["#f6f2ea","#16181c","#16181c","#f6f2ea","#c8102e","#ffd84d"],
- yellow:["#ffd400","#111","#111","#ffd400","#d0021b","#fff"],
- green:["#0e5b3a","#fff","#c8f26b","#0e5b3a","#c8f26b","#c8f26b"],
- sky:["#eaf3ff","#0b2447","#1764d6","#fff","#1764d6","#ffe066"],
- kraft:["#efe3cc","#3a2a17","#3a2a17","#efe3cc","#b8461b","#ffd27a"],
- orange:["#ff6a13","#111","#111","#ff6a13","#fff","#fff"],
- black:["#101215","#fff","#ffd400","#101215","#ffd400","#ffd400"],
- mint:["#dff5ee","#0b3b30","#0f8a6a","#fff","#0f8a6a","#ffe066"]};
-const img=n=>`<img src="img/p${String(n).padStart(2,"0")}.jpg" alt="">`;
-const tel=t=>`<div class="tel"><s>무료상담</s>${TEL}</div>`;
-const L={
-1:d=>`<div class="wrapper"><div class="k">${d.k}</div><div class="h" style="--hs:${d.hs||19}cqi">${d.h}</div><div class="bot"><div class="brand">${BR}</div>${tel()}<div class="pts">${d.p.map(x=>`<span>${x}</span>`).join("")}</div></div></div>`,
-2:d=>`<div class="ph abs">${img(d.i)}</div><div class="txt"><div class="h">${d.h}</div><div class="s">${d.s}</div></div><div class="bot"><div class="brand">${BR}</div>${tel()}</div>`,
-3:d=>`<div class="ph">${img(d.i)}</div><div class="shade"></div><div class="corner">경기정보통신 CCTV</div><div class="txt"><div class="k">${d.k}</div><div class="h">${d.h}</div><div class="row"><div class="brand">${BR}</div>${tel()}</div></div>`,
-4:d=>`<div class="num" style="--ns:${d.ns||88}cqi">${d.n}</div><div class="vert">${d.v}</div><div class="rule" style="top:62cqi"></div><div class="ph">${img(d.i)}</div><div class="txt"><div class="k">${d.k}</div><div class="h">${d.h}</div></div><div class="rule" style="bottom:26cqi"></div><div class="bot"><div class="brand">${BR}</div>${tel()}</div>`,
-5:d=>`<div class="wrapper"><div class="h">${d.h}</div><div class="bot"><div class="pts">${d.p.map(x=>`<span>${x}</span>`).join("")}</div><div class="brand">${BR}</div>${tel()}</div></div><div class="ph">${img(d.i)}</div>`,
-6:d=>`<div class="ph">${img(d.i)}</div><div class="wrapper"><div class="k">${d.k}</div><div class="num" style="--ns:${d.ns||46}cqi">${d.n}</div><div class="h">${d.h}</div><div class="s">${d.s}</div><div class="bot"><div><div class="brand">${BR}</div>${tel()}</div></div></div>`,
-7:d=>`<div class="k">${d.k}</div><div class="h">${d.h}</div><div class="burst"><svg viewBox="0 0 100 100"><polygon fill="#d0021b" points="${Array.from({length:32},(_,j)=>{const r=j%2?39:50,a=j*Math.PI/16;return (50+r*Math.cos(a)).toFixed(1)+","+(50+r*Math.sin(a)).toFixed(1)}).join(" ")}"/></svg><b>${d.b}</b></div><div class="ph">${img(d.i)}</div><div class="list">${d.p.map(x=>`<span>${x}</span>`).join("")}</div><div class="band">${d.band}</div><div class="bot"><div class="brand">${BR}</div>${tel()}</div>`,
-8:d=>`<div class="ph">${img(d.i)}</div><div class="txt"><div class="h" style="--hs:${d.hs||17}cqi">${d.h}</div><div class="s">${d.s}</div></div><div class="bot"><div class="brand">${BR}</div>${tel()}</div>`,
-9:d=>`<div class="left"></div><div class="right"></div><div class="ph abs">${img(d.i)}</div><div class="ttl">${d.h}</div><div class="col a"><b>${d.a[0]}</b>${d.a.slice(1).map(x=>`<span>${x}</span>`).join("")}</div><div class="vs">VS</div><div class="col b"><b>${d.b[0]}</b>${d.b.slice(1).map(x=>`<span>${x}</span>`).join("")}</div><div class="bot"><div class="brand">${BR}</div>${tel()}</div>`,
-10:d=>`<div class="tape"></div><div class="pol"><div>${img(d.i)}</div><i>${d.cap}</i></div><div class="k">${d.k}</div><div class="h" style="--hs:${d.hs||10.5}cqi">${d.h}</div><div class="s">${d.s}</div><div class="bot"><div><div class="brand">${BR}</div>${tel()}</div><div class="seal">${d.seal}</div></div>`
-};
-const REF={1:["단색 거대 타이포","The Economist 레드 포스터. 사진 없이 문장 하나로 승부."],2:["여백과 작은 사진","폭스바겐 'Think Small'. 큰 여백으로 시선을 한 줄에 모음."],3:["풀블리드 실사","애플 'Shot on iPhone'. 사진이 주인공, 카피는 아래에 짧게."],4:["거대 숫자 + 그리드","스위스 국제 타이포 양식(뮐러-브로크만). 숫자를 지면 밖으로 넘김."],5:["문장이 곧 그림","배민 포스터 문법. 줄마다 크기를 달리해 지면을 글자로 채움."],6:["숫자 하나로 말하기","토스 옥외광고. 큰 숫자 하나와 짧은 설명."],7:["마트 전단 문법","이마트·홈플러스 전단. 폭발 버스트, 사선 띠, 테두리 글자."],8:["사진과 겹치는 타이포","패션·스포츠 포스터. 외곽선 대형 글자가 사진 경계를 넘음."],9:["사선 분할 비교","통신·보험 비교 광고. 좌우 대비로 한눈에 차이를 보여줌."],10:["손편지와 폴라로이드","공익·효도 캠페인. 자녀가 쓴 편지 같은 친근한 톤."]};
-document.getElementById("refs").innerHTML=Object.entries(REF).map(([k,[a,b]])=>`<li><b>${k}. ${a}</b>${b}</li>`).join("");
-const D=[
-{L:1,c:"red",t:"가입 절차 없음",k:"가입서 · 약정 · 위약금",h:"그런 거<br>하나도<br><em>없습니다.</em>",p:["전화 한 통","무료 견적","바로 설치"]},
-{L:6,c:"white",t:"가격",i:2,k:"대기업 통신사 CCTV 대비",n:"½",ns:60,h:"같은 화질, 요금은 절반.",s:"매달 나가는 요금 대신 합리적인 설치비 한 번."},
-{L:4,c:"ivory",t:"대기업 납품사",i:3,n:"OEM",ns:52,v:"SUPPLIER",k:"현대·통신사 납품 업체",h:"대기업 CCTV,<br>저희가 만들고<br>답니다."},
-{L:5,c:"yellow",t:"3단계 절차",i:4,h:`<span style="font-size:20cqi">전화하고</span><span style="font-size:15cqi">기다리면</span><span style="font-size:24.5cqi"><em>설치 끝</em></span><span style="font-size:6.4cqi">어려운 가입, 본인인증 없어요</span>`,p:["① 전화","② 무료 방문","③ 당일 설치"]},
-{L:3,c:"navy",t:"한 줄 임팩트",i:5,k:"가입 없이 · 서류 없이",h:"우리 골목에<br><em>눈</em> 하나 더."},
-{L:7,c:"yellow",t:"마트 전단형",i:6,k:"동네 이웃 필독",h:"가입비<br>약정",b:"0원<small>위약금도 없음</small>",p:["대기업과 같은 성능","무료 방문 견적","당일 설치 가능"],band:"이 전단 보고 전화 주시면 견적 무료!"},
-{L:8,c:"white",t:"자녀 안심",i:7,hs:14.5,h:`<span class="o">멀리서도</span><span>엄마 집</span><span class="f2" style="color:#1764d6">안심.</span>`,s:"부모님 댁 현관을 자녀 휴대폰으로 실시간 확인. 부모님은 아무것도 안 하셔도 됩니다."},
-{L:2,c:"white",t:"가게 사장님",i:8,pw:42,h:"가게 지키는 데<br>큰돈 <em>쓰지 마세요.</em>",s:"통신사 CCTV 월 요금이 아까우셨다면, 대기업 납품사가 같은 장비를 한 번의 설치비로 달아드립니다."},
-{L:10,c:"kraft",t:"어르신 말투",i:9,k:"어르신,<br>걱정 붙들어<br>매세요~",cap:"기사님이 다 해드려요",h:"복잡한 거<br><em>하나도</em> 없어요",s:"\"가입해라, 인증해라\" 그런 거 안 합니다.<br>전화만 주시면 기사가 와서 다 해드려요.",seal:"쉽고<br>간단"},
-{L:9,c:"navy",t:"성능 비교",i:10,h:"화질은 같고,<br>다른 건 가격뿐.",a:["대기업 브랜드","약정 3년","매달 요금","위약금"],b:["경기정보통신","약정 없음","설치비 한 번","대기업급 화질"]},
-{L:1,c:"black",t:"약정 해방",k:"3년 묶이지 마세요",hs:30,h:"약정<br><em>NO.</em>",p:["위약금 0원","해지 걱정 없음"]},
-{L:3,c:"green",t:"지역 밀착",i:12,k:"경기도 전 지역 직접 방문",h:"부르면 <em>바로</em><br>오는 동네 업체."},
-{L:4,c:"white",t:"서류 0장",i:13,n:"0",ns:118,v:"NO PAPER",k:"가입서 보고 포기하셨나요?",h:"이제<br>서류<br>0장."},
-{L:6,c:"mint",t:"월 요금",i:14,k:"매달 나가는 CCTV 요금",n:"0<small>원</small>",h:"월 요금 걱정, 끝.",s:"대기업 납품사 장비를 합리적인 설치비로. 매달 빠져나가는 돈이 없습니다."},
-{L:8,c:"black",t:"야간 화질",i:15,hs:16,h:`<span class="o">밤에도</span><span>얼굴까지</span><span class="f2">선명하게.</span>`,s:"대기업 제품과 같은 야간 적외선 카메라. 어두운 골목도 또렷하게 녹화합니다."},
-{L:5,c:"sky",t:"당일 설치",i:16,h:`<span style="font-size:17cqi">오늘 <em>전화</em></span><span style="font-size:17cqi">오늘 <em>설치</em></span><span style="font-size:8cqi">기다리게 하지 않습니다</span>`,p:["오전 전화","오후 방문","저녁엔 확인 끝"]},
-{L:2,c:"ivory",t:"A/S",i:17,pw:40,h:"설치하고 끝?<br><em>고장 나면 달려갑니다.</em>",s:"대기업 납품 기준 그대로 관리합니다. 전화 한 통이면 기사가 직접 찾아가 고쳐 드립니다."},
-{L:7,c:"orange",t:"체크리스트",i:18,k:"하나라도 해당되면",h:"지금<br>전화!",b:"무료<small>방문 견적</small>",p:["☑ 가입 절차 귀찮다","☑ 통신사 요금 비싸다","☑ 성능은 좋았으면"],band:"세 개 다 해결해 드립니다"},
-{L:3,c:"ivory",t:"주택·빌라",i:19,k:"택배 분실 · 낯선 방문자",h:"현관 앞,<br>이제 <em>안심</em>하세요."},
-{L:9,c:"red",t:"공장·창고",i:20,h:"카메라가 많을수록<br>차이는 커집니다.",a:["대기업 통신사","대수만큼 요금","매달 청구","약정 필수"],b:["경기정보통신","일괄 견적","설치비 한 번","약정 없음"]},
-{L:6,c:"yellow",t:"전화 1통",i:21,k:"가입도 서류도 필요 없이",n:"1<small>통</small>",ns:54,h:"전화 한 통이면 끝.",s:"상담 · 견적 · 설치 일정까지 전화 한 통으로 정리해 드립니다."},
-{L:8,c:"green",t:"농촌",i:22,hs:15.5,h:`<span class="o">밭 · 축사</span><span>도둑 걱정</span><span class="f2">끝.</span>`,s:"넓은 마당과 축사도 야간까지 선명하게. 멀리서도 휴대폰으로 확인하세요."},
-{L:1,c:"ivory",t:"정직 가격",k:"광고비 · 유통비 뺀",hs:21,h:"거품 없는<br><em>정직한</em><br>가격.",p:["견적 그대로 시공","숨은 비용 없음"]},
-{L:10,c:"kraft",t:"자녀 편지",i:24,k:"엄마,<br>이번엔<br>내가 해줄게",cap:"우리 엄마 집 현관",h:"엄마 집 현관,<br><em>내 폰</em>으로 볼게요",s:"부모님은 아무것도 안 하셔도 돼요.<br>약정 없이, 비싸지 않게 달아드려요.",seal:"효도<br>선물"},
-{L:5,c:"orange",t:"이웃 입소문",i:25,h:`<span style="font-size:13cqi">옆집 할머니도</span><span style="font-size:13cqi">앞집 할아버지도</span><span style="font-size:21cqi;color:#fff">달았대요</span>`,p:["가입 없이","친절한 설명","대기업 장비"]},
-{L:4,c:"black",t:"교체",i:26,n:"OLD",ns:60,v:"UPGRADE",k:"흐릿한 옛날 화면",h:"이참에<br>바꾸세요."},
-{L:1,c:"yellow",t:"큰 글씨",k:"대기업 납품사가 직접 설치",hs:26,h:"CCTV<br><em style='color:#d0021b'>싸게.</em><br>쉽게.",p:["약정 없음","무료 견적"]},
-{L:2,c:"sky",t:"Q&A",i:28,pw:44,h:"가입해야 하나요? <em>아니요.</em><br>비싸지 않나요? <em>아니요.</em>",s:"성능은 괜찮냐고요? 대기업에 납품하는 바로 그 장비입니다. 궁금한 건 전화로 편하게 물어보세요."},
-{L:7,c:"red",t:"방범 경고",i:29,k:"요즘 빈집털이 늘었습니다",h:"미리<br>대비!",b:"방범<small>필수</small>",p:["현관·창문 감시","휴대폰 알림","가입 절차 없음"],band:"비싸지 않습니다. 지금 견적 받아보세요"},
-{L:10,c:"ivory",t:"종합",i:30,k:"한 줄로<br>정리하면요",cap:"설치 후 만족 100%",hs:12,h:"<em>쉽다.</em> <em>싸다.</em><br><em>좋다.</em>",s:"쉽다 — 가입 절차 없음<br>싸다 — 대기업보다 저렴<br>좋다 — 대기업 납품사 성능",seal:"3대<br>약속"},
-];
-document.getElementById("g").innerHTML=D.map((d,i)=>{d.i=d.i||i+1;const c=P[d.c];
-const st=`--paper:${c[0]};--ink:${c[1]};--acc:${c[2]};--accInk:${c[3]};--acc2:${c[4]};--mk:${c[5]};${d.pw?`--pw:${d.pw}cqi`:""}`;
-return `<div class="item"><div class="meta"><b>${String(i+1).padStart(2,"0")}. ${d.t}</b> · ${REF[d.L][0]}</div><div class="f L${d.L}" style="${st}">${L[d.L](d)}<div class="cam" style="${d.cp||CAMPOS[d.L]}"><img src="img/${d.cam||CAMS[i%5]}.webp" alt="CCTV 카메라"></div><div class="qr"><img src="img/qr.svg" alt="전화 연결 QR"><b>찍으면 바로 전화</b></div></div></div>`}).join("");
-</script>
+<div class="wrap"><h1>경기정보통신 CCTV 전단 시안 30종</h1>
+<p>시니어 대상 부착용 전단입니다. 오른쪽 아래 QR을 휴대폰 카메라로 찍으면 1522-1201로 바로 전화가 연결됩니다.</p>
+<div class="grid">
+<figure><img src="posters/F01.jpg" alt="가입 절차 없음 전단 시안" loading="lazy"><figcaption><b>01</b> 가입 절차 없음</figcaption></figure>
+<figure><img src="posters/F02.jpg" alt="요금 절반 전단 시안" loading="lazy"><figcaption><b>02</b> 요금 절반</figcaption></figure>
+<figure><img src="posters/F03.jpg" alt="대기업 납품사 전단 시안" loading="lazy"><figcaption><b>03</b> 대기업 납품사</figcaption></figure>
+<figure><img src="posters/F04.jpg" alt="3단계 설치 전단 시안" loading="lazy"><figcaption><b>04</b> 3단계 설치</figcaption></figure>
+<figure><img src="posters/F05.jpg" alt="우리 골목에 눈 전단 시안" loading="lazy"><figcaption><b>05</b> 우리 골목에 눈</figcaption></figure>
+<figure><img src="posters/F06.jpg" alt="가입비·약정 0원 전단 시안" loading="lazy"><figcaption><b>06</b> 가입비·약정 0원</figcaption></figure>
+<figure><img src="posters/F07.jpg" alt="멀리 사는 자녀 전단 시안" loading="lazy"><figcaption><b>07</b> 멀리 사는 자녀</figcaption></figure>
+<figure><img src="posters/F08.jpg" alt="가게 사장님 전단 시안" loading="lazy"><figcaption><b>08</b> 가게 사장님</figcaption></figure>
+<figure><img src="posters/F09.jpg" alt="어르신 말투 전단 시안" loading="lazy"><figcaption><b>09</b> 어르신 말투</figcaption></figure>
+<figure><img src="posters/F10.jpg" alt="성능 비교 전단 시안" loading="lazy"><figcaption><b>10</b> 성능 비교</figcaption></figure>
+<figure><img src="posters/F11.jpg" alt="약정 NO 전단 시안" loading="lazy"><figcaption><b>11</b> 약정 NO</figcaption></figure>
+<figure><img src="posters/F12.jpg" alt="동네 업체 전단 시안" loading="lazy"><figcaption><b>12</b> 동네 업체</figcaption></figure>
+<figure><img src="posters/F13.jpg" alt="서류 0장 전단 시안" loading="lazy"><figcaption><b>13</b> 서류 0장</figcaption></figure>
+<figure><img src="posters/F14.jpg" alt="월 0원 전단 시안" loading="lazy"><figcaption><b>14</b> 월 0원</figcaption></figure>
+<figure><img src="posters/F15.jpg" alt="야간 화질 전단 시안" loading="lazy"><figcaption><b>15</b> 야간 화질</figcaption></figure>
+<figure><img src="posters/F16.jpg" alt="당일 설치 전단 시안" loading="lazy"><figcaption><b>16</b> 당일 설치</figcaption></figure>
+<figure><img src="posters/F17.jpg" alt="A/S 전단 시안" loading="lazy"><figcaption><b>17</b> A/S</figcaption></figure>
+<figure><img src="posters/F18.jpg" alt="체크리스트 전단 시안" loading="lazy"><figcaption><b>18</b> 체크리스트</figcaption></figure>
+<figure><img src="posters/F19.jpg" alt="현관 택배 전단 시안" loading="lazy"><figcaption><b>19</b> 현관 택배</figcaption></figure>
+<figure><img src="posters/F20.jpg" alt="공장·창고 전단 시안" loading="lazy"><figcaption><b>20</b> 공장·창고</figcaption></figure>
+<figure><img src="posters/F21.jpg" alt="전화 1통 전단 시안" loading="lazy"><figcaption><b>21</b> 전화 1통</figcaption></figure>
+<figure><img src="posters/F22.jpg" alt="농가 전단 시안" loading="lazy"><figcaption><b>22</b> 농가</figcaption></figure>
+<figure><img src="posters/F23.jpg" alt="정직한 가격 전단 시안" loading="lazy"><figcaption><b>23</b> 정직한 가격</figcaption></figure>
+<figure><img src="posters/F24.jpg" alt="효도 CCTV 전단 시안" loading="lazy"><figcaption><b>24</b> 효도 CCTV</figcaption></figure>
+<figure><img src="posters/F25.jpg" alt="옆집도 달았대요 전단 시안" loading="lazy"><figcaption><b>25</b> 옆집도 달았대요</figcaption></figure>
+<figure><img src="posters/F26.jpg" alt="교체 전단 시안" loading="lazy"><figcaption><b>26</b> 교체</figcaption></figure>
+<figure><img src="posters/F27.jpg" alt="싸게 쉽게 전단 시안" loading="lazy"><figcaption><b>27</b> 싸게 쉽게</figcaption></figure>
+<figure><img src="posters/F28.jpg" alt="자주 묻는 질문 전단 시안" loading="lazy"><figcaption><b>28</b> 자주 묻는 질문</figcaption></figure>
+<figure><img src="posters/F29.jpg" alt="빈집털이 대비 전단 시안" loading="lazy"><figcaption><b>29</b> 빈집털이 대비</figcaption></figure>
+<figure><img src="posters/F30.jpg" alt="쉽다 싸다 좋다 전단 시안" loading="lazy"><figcaption><b>30</b> 쉽다 싸다 좋다</figcaption></figure>
+</div></div>
