@@ -47,7 +47,7 @@ header p{color:var(--muted);margin:0 0 24px;max-width:70ch;line-height:1.6}
 .f .steps div{background:rgba(0,0,0,.06);border-radius:2cqi;padding:3cqi 1cqi;font-size:3.8cqi;font-weight:700;line-height:1.35}
 .f .steps b{display:block;font-family:var(--disp);font-size:7cqi;color:var(--acc2);font-weight:900}
 .f .tear{flex-shrink:0;display:grid;grid-template-columns:repeat(6,1fr);border-top:.5cqi dashed currentColor;margin-top:auto}
-.f .tear span{writing-mode:vertical-rl;font-size:3cqi;font-weight:700;padding:2cqi 0;border-right:.5cqi dashed currentColor;text-align:center;height:18cqi;overflow:hidden;font-size:2.8cqi!important;line-height:1}
+.f .tear span{writing-mode:vertical-rl;font-size:3cqi;font-weight:700;padding:2cqi 0;border-right:.5cqi dashed currentColor;text-align:center;height:18cqi;overflow:hidden;font-size:2.8cqi!important;line-height:1;white-space:nowrap}
 </style>
 <div class="wrap">
 <header><h1>경기정보통신 CCTV 전단 시안 30종</h1>
@@ -109,7 +109,7 @@ const D=[
 ["종합형","3대 소구","A","red","쉽다 · 싸다 · 좋다","CCTV, 이제 고민하지 마세요.",["쉽다 : 가입 절차 없음","싸다 : 대기업보다 저렴","좋다 : 대기업 납품사 성능"]],
 ];
 document.getElementById("g").innerHTML=D.map((r,i)=>{const[nm,tg,lay,pal,h,s,p,st,v]=r;const c=P[pal];
-const IM="senior shop cam senior cam shop senior shop senior cam cam senior senior shop cam senior senior cam senior shop cam shop cam senior senior cam cam senior cam senior".split(" ");
+const IM=Array.from({length:30},(_,i)=>"p"+String(i+1).padStart(2,"0"));
 const d={img:IM[i],h,s,p:Array.isArray(p)?p:[],tag:Array.isArray(p)?tg:p,st,v};
 const style=`--paper:${c[0]};--ink:${c[1]};--acc:${c[2]};--accInk:${c[3]};--acc2:${c[4]};--footBg:${c[5]};--footInk:${c[6]}`;
 const full=lay==="E"?` full" style="background-image:url(img/${IM[i]}.jpg);${style}`:`" style="${style}`;
