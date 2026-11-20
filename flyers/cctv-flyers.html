@@ -25,6 +25,8 @@ h1{font-size:2rem;font-weight:900;letter-spacing:-.03em;margin:0 0 8px}
 .f{aspect-ratio:210/297;max-width:100%;container-type:inline-size;position:relative;overflow:hidden;border-radius:3px;box-shadow:0 3px 14px rgba(0,0,0,.18);font-family:var(--sans);color:var(--ink);background:var(--paper);word-break:keep-all;line-height:1.2}
 .f *{box-sizing:border-box}
 .f .abs{position:absolute}
+.f .cam{position:absolute;z-index:4;filter:drop-shadow(0 1.6cqi 1.8cqi rgba(0,0,0,.35));pointer-events:none}
+.f .cam img{width:100%;height:auto;object-fit:contain}
 .f img{display:block;width:100%;height:100%;object-fit:cover;max-width:none}
 .f .brand{font-weight:900;font-size:3.4cqi;letter-spacing:-.02em}
 .f .brand small{font-weight:600;opacity:.7;margin-left:1.2cqi;font-size:2.8cqi}
@@ -78,7 +80,7 @@ h1{font-size:2rem;font-weight:900;letter-spacing:-.03em;margin:0 0 8px}
 .L5 .h{font-family:"Dohyeon",var(--sans);line-height:1.02;letter-spacing:-.02em}
 .L5 .h span{display:block;white-space:nowrap}
 .L5 .h em{color:var(--acc2)}
-.L5 .ph{width:30cqi;height:30cqi;border-radius:50%;overflow:hidden;position:absolute;right:6cqi;bottom:30cqi;border:1.2cqi solid var(--paper);box-shadow:0 0 0 .5cqi var(--ink)}
+.L5 .ph{display:none;width:30cqi;height:30cqi;border-radius:50%;overflow:hidden;position:absolute;right:6cqi;bottom:30cqi;border:1.2cqi solid var(--paper);box-shadow:0 0 0 .5cqi var(--ink)}
 .L5 .bot{margin-top:auto;display:flex;flex-direction:column;gap:1.4cqi}
 
 /* 6 TOSS: 숫자 하나로 말하기 */
@@ -130,7 +132,7 @@ h1{font-size:2rem;font-weight:900;letter-spacing:-.03em;margin:0 0 8px}
 .L9 .col b{font-weight:900;font-size:4.6cqi;letter-spacing:-.03em}
 .L9 .col span{font-weight:800;font-size:3.6cqi;line-height:1.3}
 .L9 .col.a span{text-decoration:line-through;text-decoration-thickness:.5cqi;text-decoration-color:#d0021b}
-.L9 .vs{color:#fff!important;background:#111!important;position:absolute;left:50%;top:76cqi;transform:translate(-50%,-50%);width:16cqi;height:16cqi;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-family:"Dohyeon";font-size:6cqi;z-index:2}
+.L9 .vs{top:62cqi!important;color:#fff!important;background:#111!important;position:absolute;left:50%;top:76cqi;transform:translate(-50%,-50%);width:16cqi;height:16cqi;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-family:"Dohyeon";font-size:6cqi;z-index:2}
 .L9 .bot{position:absolute;left:0;right:0;bottom:0;background:#111;color:#fff;padding:4cqi 6cqi;display:flex;flex-direction:column;gap:1cqi}
 
 /* 10 LETTER: 손편지 + 폴라로이드 */
@@ -153,7 +155,9 @@ h1{font-size:2rem;font-weight:900;letter-spacing:-.03em;margin:0 0 8px}
 <ul class="refs" id="refs"></ul>
 <div class="grid" id="g"></div></div>
 <script>
-const TEL="031-000-0000",BR=`경기정보통신<small>자세 프랜드</small>`;
+const TEL="031-000-0000",BR=`경기정보통신 CCTV<small>자세 프랜드</small>`;
+const CAMPOS={1:"right:-4cqi;top:60cqi;width:44cqi",2:"left:56cqi;top:36cqi;width:36cqi",3:"right:4cqi;top:5cqi;width:30cqi",4:"right:3cqi;top:24cqi;width:40cqi",5:"right:3cqi;bottom:27cqi;width:38cqi",6:"right:-3cqi;top:12cqi;width:52cqi",7:"left:39cqi;top:44cqi;width:28cqi",8:"right:3cqi;top:5cqi;width:32cqi",9:"left:28cqi;top:84cqi;width:44cqi",10:"left:6cqi;top:36cqi;width:34cqi"};
+const CAMS=["c_dome","c_bullet_w","c_ptz","c_bullet_b","c_set"];
 const P={ // paper ink acc accInk acc2 mk
  red:["#e3120b","#fff","#fff","#e3120b","#ffd84d","#ffd84d"],
  navy:["#0f1e3c","#fff","#ffd400","#0f1e3c","#ffd400","#ffd400"],
@@ -189,7 +193,7 @@ const D=[
 {L:5,c:"yellow",t:"3단계 절차",i:4,h:`<span style="font-size:20cqi">전화하고</span><span style="font-size:15cqi">기다리면</span><span style="font-size:24.5cqi"><em>설치 끝</em></span><span style="font-size:6.4cqi">어려운 가입, 본인인증 없어요</span>`,p:["① 전화","② 무료 방문","③ 당일 설치"]},
 {L:3,c:"navy",t:"한 줄 임팩트",i:5,k:"가입 없이 · 서류 없이",h:"우리 골목에<br><em>눈</em> 하나 더."},
 {L:7,c:"yellow",t:"마트 전단형",i:6,k:"동네 이웃 필독",h:"가입비<br>약정",b:"0원<small>위약금도 없음</small>",p:["대기업과 같은 성능","무료 방문 견적","당일 설치 가능"],band:"이 전단 보고 전화 주시면 견적 무료!"},
-{L:8,c:"white",t:"자녀 안심",i:7,hs:17,h:`<span class="o">멀리서도</span><span>엄마 집</span><span class="f2" style="color:#1764d6">안심.</span>`,s:"부모님 댁 현관을 자녀 휴대폰으로 실시간 확인. 부모님은 아무것도 안 하셔도 됩니다."},
+{L:8,c:"white",t:"자녀 안심",i:7,hs:14.5,h:`<span class="o">멀리서도</span><span>엄마 집</span><span class="f2" style="color:#1764d6">안심.</span>`,s:"부모님 댁 현관을 자녀 휴대폰으로 실시간 확인. 부모님은 아무것도 안 하셔도 됩니다."},
 {L:2,c:"white",t:"가게 사장님",i:8,pw:42,h:"가게 지키는 데<br>큰돈 <em>쓰지 마세요.</em>",s:"통신사 CCTV 월 요금이 아까우셨다면, 대기업 납품사가 같은 장비를 한 번의 설치비로 달아드립니다."},
 {L:10,c:"kraft",t:"어르신 말투",i:9,k:"어르신,<br>걱정 붙들어<br>매세요~",cap:"기사님이 다 해드려요",h:"복잡한 거<br><em>하나도</em> 없어요",s:"\"가입해라, 인증해라\" 그런 거 안 합니다.<br>전화만 주시면 기사가 와서 다 해드려요.",seal:"쉽고<br>간단"},
 {L:9,c:"navy",t:"성능 비교",i:10,h:"화질은 같고,<br>다른 건 가격뿐.",a:["대기업 브랜드","약정 3년","매달 요금","위약금"],b:["경기정보통신","약정 없음","설치비 한 번","대기업급 화질"]},
@@ -216,5 +220,5 @@ const D=[
 ];
 document.getElementById("g").innerHTML=D.map((d,i)=>{d.i=d.i||i+1;const c=P[d.c];
 const st=`--paper:${c[0]};--ink:${c[1]};--acc:${c[2]};--accInk:${c[3]};--acc2:${c[4]};--mk:${c[5]};${d.pw?`--pw:${d.pw}cqi`:""}`;
-return `<div class="item"><div class="meta"><b>${String(i+1).padStart(2,"0")}. ${d.t}</b> · ${REF[d.L][0]}</div><div class="f L${d.L}" style="${st}">${L[d.L](d)}</div></div>`}).join("");
+return `<div class="item"><div class="meta"><b>${String(i+1).padStart(2,"0")}. ${d.t}</b> · ${REF[d.L][0]}</div><div class="f L${d.L}" style="${st}">${L[d.L](d)}<div class="cam" style="${d.cp||CAMPOS[d.L]}"><img src="img/${d.cam||CAMS[i%5]}.webp" alt="CCTV 카메라"></div></div></div>`}).join("");
 </script>
