@@ -25,6 +25,13 @@ h1{font-size:2rem;font-weight:900;letter-spacing:-.03em;margin:0 0 8px}
 .f{aspect-ratio:210/297;max-width:100%;container-type:inline-size;position:relative;overflow:hidden;border-radius:3px;box-shadow:0 3px 14px rgba(0,0,0,.18);font-family:var(--sans);color:var(--ink);background:var(--paper);word-break:keep-all;line-height:1.2}
 .f *{box-sizing:border-box}
 .f .abs{position:absolute}
+.f .brand,.f .tel{width:fit-content}
+.L10 .seal{position:absolute;right:4cqi;bottom:30cqi}
+.L7 .bot{align-items:flex-start!important}
+.L7 .band{bottom:31cqi!important}
+.f .qr{position:absolute;right:5cqi;bottom:5cqi;z-index:6;width:19cqi;background:#fff;padding:1.2cqi;border-radius:1.6cqi;box-shadow:0 .6cqi 2cqi rgba(0,0,0,.25);text-align:center;color:#111}
+.f .qr img{width:100%;height:auto;object-fit:contain}
+.f .qr b{display:block;font-size:2.2cqi;font-weight:900;letter-spacing:-.03em;margin-top:.6cqi;line-height:1.2;font-size:2.6cqi!important}
 .f .cam{position:absolute;z-index:4;filter:drop-shadow(0 1.6cqi 1.8cqi rgba(0,0,0,.35));pointer-events:none}
 .f .cam img{width:100%;height:auto;object-fit:contain}
 .f img{display:block;width:100%;height:100%;object-fit:cover;max-width:none}
@@ -46,7 +53,7 @@ h1{font-size:2rem;font-weight:900;letter-spacing:-.03em;margin:0 0 8px}
 
 /* 2 SMALL: 여백 + 작은 사진 (VW Think Small) */
 .L2 .ph{position:absolute;left:50%;top:13cqi;width:var(--pw,46cqi);aspect-ratio:3/4;transform:translateX(-50%)}
-.L2 .txt{position:absolute;left:8cqi;right:8cqi;bottom:27cqi}
+.L2 .txt{position:absolute;left:8cqi;right:8cqi;bottom:31cqi}
 .L2 .h{font-weight:900;font-size:7.6cqi;letter-spacing:-.05em;line-height:1.12}
 .L2 .h em{color:var(--acc2)}
 .L2 .s{font-size:3.3cqi;font-weight:600;line-height:1.6;margin-top:3cqi;opacity:.85}
@@ -116,7 +123,7 @@ h1{font-size:2rem;font-weight:900;letter-spacing:-.03em;margin:0 0 8px}
 .L8 .h span{display:block}
 .L8 .h .o{color:transparent;-webkit-text-stroke:.55cqi #fff}
 .L8 .h .f2{color:var(--acc)}
-.L8 .s{padding-left:1cqi;font-weight:800;font-size:3.8cqi;line-height:1.5}
+.L8 .s{padding-left:1cqi;max-width:72%;font-weight:800;font-size:3.8cqi;line-height:1.5}
 .L8 .bot{position:absolute;left:6cqi;right:6cqi;bottom:6cqi;display:flex;flex-direction:column;gap:1cqi;border-top:.35cqi solid currentColor;padding-top:2.6cqi}
 .L8 .tel{font-size:9cqi}
 
@@ -144,19 +151,19 @@ h1{font-size:2rem;font-weight:900;letter-spacing:-.03em;margin:0 0 8px}
 .L10 .k{position:absolute;left:7cqi;top:12cqi;width:40cqi;font-family:"Hanna";font-size:4.4cqi;line-height:1.5;color:var(--acc2)}
 .L10 .h{position:absolute;left:7cqi;right:7cqi;top:64cqi;font-family:"Hanna";font-size:var(--hs,10.5cqi);line-height:1.18;letter-spacing:-.02em}
 .L10 .h em{background:linear-gradient(transparent 60%,var(--mk) 60%)}
-.L10 .s{position:absolute;left:7cqi;right:7cqi;top:98cqi;font-family:"Hanna";font-size:4.2cqi;line-height:1.55;opacity:.85}
+.L10 .s{position:absolute;left:7cqi;right:33cqi;top:96cqi;font-family:"Hanna";font-size:4.2cqi;line-height:1.55;opacity:.85}
 .L10 .bot{position:absolute;left:7cqi;right:7cqi;bottom:6cqi;display:flex;justify-content:space-between;align-items:flex-end}
 .L10 .seal{width:22cqi;height:22cqi;border-radius:50%;border:.8cqi solid var(--acc2);color:var(--acc2);display:grid;place-items:center;text-align:center;font-weight:900;font-size:3.2cqi;transform:rotate(-12deg);line-height:1.2}
 .L10 .tel{font-size:8cqi}
 </style>
 <div class="wrap">
 <h1>경기정보통신 CCTV 전단 시안 30종</h1>
-<p class="lead">국내외 광고 레퍼런스 10가지의 포스터 문법을 가져와 각각 3장씩 변주했습니다. 시니어 대상이라 어떤 구성에서도 핵심 문장과 전화번호는 크게 남겼습니다. 전화번호·수치는 자리표시용입니다.</p>
+<p class="lead">국내외 광고 레퍼런스 10가지의 포스터 문법을 가져와 각각 3장씩 변주했습니다. 시니어 대상이라 어떤 구성에서도 핵심 문장과 전화번호는 크게 남겼습니다. QR을 휴대폰 카메라로 찍으면 1522-1201로 바로 전화가 걸립니다. 수치 표현은 근거 확인이 필요합니다.</p>
 <ul class="refs" id="refs"></ul>
 <div class="grid" id="g"></div></div>
 <script>
-const TEL="031-000-0000",BR=`경기정보통신 CCTV<small>자세 프랜드</small>`;
-const CAMPOS={1:"right:-4cqi;top:60cqi;width:44cqi",2:"left:56cqi;top:36cqi;width:36cqi",3:"right:4cqi;top:5cqi;width:30cqi",4:"right:3cqi;top:24cqi;width:40cqi",5:"right:3cqi;bottom:27cqi;width:38cqi",6:"right:-3cqi;top:12cqi;width:52cqi",7:"left:39cqi;top:44cqi;width:28cqi",8:"right:3cqi;top:5cqi;width:32cqi",9:"left:28cqi;top:84cqi;width:44cqi",10:"left:6cqi;top:36cqi;width:34cqi"};
+const TEL="1522-1201",BR=`경기정보통신 CCTV<small>자세 프랜드</small>`;
+const CAMPOS={1:"right:-4cqi;top:60cqi;width:44cqi",2:"left:56cqi;top:36cqi;width:36cqi",3:"right:4cqi;top:5cqi;width:30cqi",4:"right:3cqi;top:24cqi;width:40cqi",5:"right:3cqi;bottom:34cqi;width:36cqi",6:"right:-3cqi;top:12cqi;width:52cqi",7:"left:39cqi;top:44cqi;width:28cqi",8:"right:3cqi;top:5cqi;width:32cqi",9:"left:28cqi;top:84cqi;width:44cqi",10:"left:6cqi;top:36cqi;width:34cqi"};
 const CAMS=["c_dome","c_bullet_w","c_ptz","c_bullet_b","c_set"];
 const P={ // paper ink acc accInk acc2 mk
  red:["#e3120b","#fff","#fff","#e3120b","#ffd84d","#ffd84d"],
@@ -220,5 +227,5 @@ const D=[
 ];
 document.getElementById("g").innerHTML=D.map((d,i)=>{d.i=d.i||i+1;const c=P[d.c];
 const st=`--paper:${c[0]};--ink:${c[1]};--acc:${c[2]};--accInk:${c[3]};--acc2:${c[4]};--mk:${c[5]};${d.pw?`--pw:${d.pw}cqi`:""}`;
-return `<div class="item"><div class="meta"><b>${String(i+1).padStart(2,"0")}. ${d.t}</b> · ${REF[d.L][0]}</div><div class="f L${d.L}" style="${st}">${L[d.L](d)}<div class="cam" style="${d.cp||CAMPOS[d.L]}"><img src="img/${d.cam||CAMS[i%5]}.webp" alt="CCTV 카메라"></div></div></div>`}).join("");
+return `<div class="item"><div class="meta"><b>${String(i+1).padStart(2,"0")}. ${d.t}</b> · ${REF[d.L][0]}</div><div class="f L${d.L}" style="${st}">${L[d.L](d)}<div class="cam" style="${d.cp||CAMPOS[d.L]}"><img src="img/${d.cam||CAMS[i%5]}.webp" alt="CCTV 카메라"></div><div class="qr"><img src="img/qr.svg" alt="전화 연결 QR"><b>찍으면 바로 전화</b></div></div></div>`}).join("");
 </script>
