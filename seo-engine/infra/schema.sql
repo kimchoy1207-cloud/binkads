@@ -1,0 +1,15 @@
+CREATE TYPE keyword_status AS ENUM ('discovered','scored','queued','drafting','qc_failed','qc_passed','publishing','published','indexing','indexed','ranking','decayed','dropped');
+CREATE TABLE projects (id BIGSERIAL PRIMARY KEY, domain TEXT NOT NULL, niche TEXT, locale TEXT DEFAULT 'ko-KR', flags JSONB DEFAULT '{}', created_at TIMESTAMPTZ DEFAULT now(), deleted_at TIMESTAMPTZ);
+CREATE TABLE clusters (id BIGSERIAL PRIMARY KEY, project_id BIGINT REFERENCES projects(id), label TEXT, centroid vector(1536));
+CREATE TABLE keywords (id BIGSERIAL PRIMARY KEY, project_id BIGINT REFERENCES projects(id) ON DELETE CASCADE, term TEXT NOT NULL, intent TEXT, volume INT, kd INT, top_dr_avg NUMERIC, score NUMERIC, status keyword_status DEFAULT 'discovered', cluster_id BIGINT REFERENCES clusters(id), created_at TIMESTAMPTZ DEFAULT now(), UNIQUE (project_id, term));
+CREATE TABLE serp_snapshots (id BIGSERIAL PRIMARY KEY, keyword_id BIGINT REFERENCES keywords(id) ON DELETE CASCADE, device TEXT, results JSONB, captured_at TIMESTAMPTZ DEFAULT now());
+CREATE TABLE pages (id BIGSERIAL PRIMARY KEY, project_id BIGINT REFERENCES projects(id) ON DELETE CASCADE, keyword_id BIGINT REFERENCES keywords(id), slug TEXT, template TEXT, status TEXT DEFAULT 'draft', published_url TEXT, entity_coverage NUMERIC);
+CREATE TABLE content_drafts (id BIGSERIAL PRIMARY KEY, page_id BIGINT REFERENCES pages(id) ON DELETE CASCADE, version INT DEFAULT 1, body_md TEXT, model TEXT, token_cost NUMERIC, qc_score NUMERIC);
+CREATE TABLE qc_results (id BIGSERIAL PRIMARY KEY, draft_id BIGINT REFERENCES content_drafts(id) ON DELETE CASCADE, rule TEXT, passed BOOLEAN, detail TEXT);
+CREATE TABLE index_requests (id BIGSERIAL PRIMARY KEY, page_id BIGINT REFERENCES pages(id) ON DELETE CASCADE, provider TEXT, status TEXT, submitted_at TIMESTAMPTZ, verified_at TIMESTAMPTZ, UNIQUE (page_id, provider));
+CREATE TABLE backlinks (id BIGSERIAL PRIMARY KEY, project_id BIGINT REFERENCES projects(id) ON DELETE CASCADE, source_url TEXT, target_url TEXT, anchor TEXT, dofollow BOOLEAN, first_seen TIMESTAMPTZ DEFAULT now(), last_checked TIMESTAMPTZ, status TEXT DEFAULT 'live', UNIQUE (source_url, target_url));
+CREATE TABLE rank_snapshots (id BIGSERIAL PRIMARY KEY, keyword_id BIGINT REFERENCES keywords(id) ON DELETE CASCADE, rank INT, device TEXT, captured_at TIMESTAMPTZ DEFAULT now());
+CREATE TABLE gsc_metrics (id BIGSERIAL PRIMARY KEY, page_id BIGINT REFERENCES pages(id) ON DELETE CASCADE, date DATE, clicks INT, impressions INT, ctr NUMERIC, position NUMERIC);
+CREATE TABLE alerts (id BIGSERIAL PRIMARY KEY, project_id BIGINT REFERENCES projects(id) ON DELETE CASCADE, kind TEXT, severity TEXT, payload JSONB, acked BOOLEAN DEFAULT false, created_at TIMESTAMPTZ DEFAULT now());
+CREATE INDEX ON keywords (project_id, status);
+CREATE INDEX ON rank_snapshots (keyword_id, captured_at DESC);

@@ -1,0 +1,13 @@
+qc:
+  entity_coverage_min: 0.6
+  unique_data_points_min: 3
+  word_count_min: 1200
+  keyword_density: [0.8, 2.5]
+  duplicate_sentence_max: 0.15
+  internal_links_min: 3
+  title_max: 60
+  description_max: 155
+keyword_filter:
+  volume_min: 30
+  kd_max: 45
+  top_dr30_count_max: 2
