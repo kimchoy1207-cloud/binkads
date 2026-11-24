@@ -34,11 +34,13 @@ http.createServer(async (req, res) => {
       return send(res, 200, { file });
     }
     if (req.method === 'POST' && url.pathname === '/api/compose') {
-      const { reference, productDataUrl, extraPrompt } = await body(req);
+      const { reference, productDataUrl, faceDataUrl, extraPrompt } = await body(req);
       const ts = Date.now();
       const productPath = path.join(OUT_DIR, `${ts}-product.png`);
       await writeFile(productPath, Buffer.from(productDataUrl.split(',')[1], 'base64'));
-      const png = await composeImage({ referencePath: safe(REF_DIR, reference), productPath, extraPrompt });
+      let facePath;
+      if (faceDataUrl) { facePath = path.join(OUT_DIR, `${ts}-face.png`); await writeFile(facePath, Buffer.from(faceDataUrl.split(',')[1], 'base64')); }
+      const png = await composeImage({ referencePath: safe(REF_DIR, reference), productPath, facePath, extraPrompt });
       const file = `${ts}-composite.png`;
       await writeFile(path.join(OUT_DIR, file), png);
       return send(res, 200, { file });

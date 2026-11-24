@@ -22,6 +22,8 @@ input[type=text],select{width:100%;box-sizing:border-box;padding:8px;border:1px 
 <div id="refs" class="grid"></div>
 <div class="row">
   <div class="box"><h2>2. 제품 사진 (모델컷)</h2><input id="product" type="file" accept="image/*"><img id="productPrev">
+    <h2>얼굴 레퍼런스 (선택)</h2><p class="muted">넣으면 레퍼런스 속 인물 얼굴을 이 얼굴로 바꿔요.</p>
+    <input id="face" type="file" accept="image/*"> <button id="faceClear" type="button" style="padding:4px 10px">빼기</button><img id="facePrev" style="max-width:120px">
     <input id="extra" type="text" placeholder="추가 지시 (선택) 예: 지퍼는 끝까지 올린 상태">
     <button id="compose" disabled>합성하기</button> <span id="cStatus" class="muted"></span></div>
   <div class="box"><h2>3. 합성 결과</h2><img id="composite">
@@ -31,7 +33,7 @@ input[type=text],select{width:100%;box-sizing:border-box;padding:8px;border:1px 
     <video id="out" controls loop playsinline></video></div>
 </div>
 </main><script>
-const $=id=>document.getElementById(id);let ref=null,productUrl=null,composite=null;
+const $=id=>document.getElementById(id);let ref=null,productUrl=null,faceUrl=null,composite=null;
 const dataUrl=f=>new Promise(r=>{const x=new FileReader();x.onload=()=>r(x.result);x.readAsDataURL(f)});
 const api=async(p,b)=>{const r=await fetch(p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});const j=await r.json();if(!r.ok)throw new Error(j.error);return j};
 async function loadRefs(){const list=await (await fetch('/api/references')).json();$('refs').innerHTML='';
@@ -40,8 +42,10 @@ async function loadRefs(){const list=await (await fetch('/api/references')).json
 const upd=()=>{$('compose').disabled=!(ref&&productUrl);$('video').disabled=!composite};
 $('addRef').onchange=async e=>{for(const f of e.target.files)await api('/api/references',{name:f.name,dataUrl:await dataUrl(f)});loadRefs()};
 $('product').onchange=async e=>{productUrl=await dataUrl(e.target.files[0]);$('productPrev').src=productUrl;upd()};
+$('face').onchange=async e=>{faceUrl=await dataUrl(e.target.files[0]);$('facePrev').src=faceUrl};
+$('faceClear').onclick=()=>{faceUrl=null;$('face').value='';$('facePrev').removeAttribute('src')};
 $('compose').onclick=async()=>{$('compose').disabled=true;$('cStatus').textContent='합성 중… (30초~1분)';
-  try{const {file}=await api('/api/compose',{reference:ref,productDataUrl:productUrl,extraPrompt:$('extra').value});composite=file;$('composite').src='/output/'+file;$('cStatus').textContent='완료'}
+  try{const {file}=await api('/api/compose',{reference:ref,productDataUrl:productUrl,faceDataUrl:faceUrl,extraPrompt:$('extra').value});composite=file;$('composite').src='/output/'+file;$('cStatus').textContent='완료'}
   catch(e){$('cStatus').textContent='오류: '+e.message}upd()};
 $('video').onclick=async()=>{$('video').disabled=true;$('vStatus').textContent='영상 생성 중… (수 분)';
   try{const {file}=await api('/api/video',{image:composite,provider:$('provider').value,seconds:$('seconds').value});$('out').src='/output/'+file;$('vStatus').textContent='완료'}

@@ -14,12 +14,13 @@ Keep the product's exact color, material sheen, quilting/stitch pattern, collar 
 Fit it naturally to the body and pose with realistic folds, shadows and reflections. Do not add text, logos or watermarks.`;
 
 /** 레퍼런스 + 제품 → 제품만 교체된 이미지(PNG Buffer) */
-async function openaiComposeImage({ referencePath, productPath, extraPrompt = '', size = '1024x1536', quality = 'high' }) {
+async function openaiComposeImage({ referencePath, productPath, facePath, extraPrompt = '', size = '1024x1536', quality = 'high' }) {
   const fd = new FormData();
   fd.append('model', process.env.IMAGE_MODEL || 'gpt-image-2');
   fd.append('image[]', await asBlob(referencePath), path.basename(referencePath));
   fd.append('image[]', await asBlob(productPath), path.basename(productPath));
-  fd.append('prompt', extraPrompt ? `${COMPOSE_PROMPT}\nAdditional: ${extraPrompt}` : COMPOSE_PROMPT);
+  if (facePath) fd.append('image[]', await asBlob(facePath), path.basename(facePath));
+  fd.append('prompt', buildPrompt(extraPrompt, facePath));
   if (process.env.INPUT_FIDELITY) fd.append('input_fidelity', process.env.INPUT_FIDELITY); // gpt-image-1.5 등 지원 모델만
   fd.append('size', size);
   fd.append('quality', quality);
@@ -28,6 +29,13 @@ async function openaiComposeImage({ referencePath, productPath, extraPrompt = ''
   if (!res.ok) throw new Error(`이미지 합성 실패: ${json.error?.message || res.status}`);
   return Buffer.from(json.data[0].b64_json, 'base64');
 }
+
+export const FACE_PROMPT = `IDENTITY CHANGE REQUIRED: the LAST image is a FACE reference of a different person.
+The person in the result MUST be clearly recognizable as the person in the face reference — same face shape, eyes, eyebrows, nose, lips,
+jawline and skin tone. Do NOT keep the original person's facial identity. Keep the pose, head angle, phone, hairstyle, outfit and background
+from image 1. If sunglasses hide the eyes, keep the sunglasses but make every visible feature match the face reference.`;
+const buildPrompt = (extraPrompt, facePath) =>
+  [COMPOSE_PROMPT, facePath ? FACE_PROMPT : '', extraPrompt ? `Additional: ${extraPrompt}` : ''].filter(Boolean).join('\n');
 
 export const VIDEO_PROMPT = `Short vertical fashion clip from this exact image. The person stays in place and naturally shifts between
 a few mirror-selfie poses: turns slightly left and right, adjusts the jacket collar, tilts head. Subtle, smooth motion,
@@ -113,10 +121,11 @@ async function falRun(app, input) {
 const download = async (url) => Buffer.from(await (await fetch(url)).arrayBuffer());
 
 /** fal 이미지 합성 (기본 nano-banana edit). 반환: 이미지 Buffer */
-export async function falComposeImage({ referencePath, productPath, extraPrompt = '' }) {
+export async function falComposeImage({ referencePath, productPath, facePath, extraPrompt = '' }) {
+  const images = [referencePath, productPath, facePath].filter(Boolean);
   const out = await falRun(process.env.FAL_IMAGE_MODEL || 'fal-ai/nano-banana-pro/edit', {
-    prompt: extraPrompt ? `${COMPOSE_PROMPT}\nAdditional: ${extraPrompt}` : COMPOSE_PROMPT,
-    image_urls: [await dataUri(referencePath), await dataUri(productPath)],
+    prompt: buildPrompt(extraPrompt, facePath),
+    image_urls: await Promise.all(images.map(dataUri)),
     num_images: 1,
   });
   return download(out.images[0].url);

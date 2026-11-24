@@ -2,6 +2,7 @@
 
 1. `references/` 에 모아둔 레퍼런스(셀카·착장 사진) 중 하나 선택
 2. 제품 모델컷 업로드 (예: 유니클로 패딩 모델컷)
+2-1. (선택) 얼굴 레퍼런스 업로드 → 인물 얼굴을 그 얼굴로 교체
 3. 레퍼런스 사람·포즈·배경은 그대로, **옷만 제품으로 교체**한 합성 이미지 생성 (OpenAI `gpt-image-2` 이미지 편집)
 4. 합성 이미지를 포즈만 왔다갔다 하는 짧은 세로 영상으로 변환 (Higgsfield 기본, Sora 선택)
 
@@ -15,7 +16,7 @@ OPENAI_API_KEY=sk-... HIGGSFIELD_API_KEY=... HIGGSFIELD_API_SECRET=... \
 HIGGSFIELD_I2V_URL=<Higgsfield image-to-video 제출 엔드포인트> PUBLIC_BASE_URL=<이 서버 외부주소> \
 NODE_USE_ENV_PROXY=1 npm start      # http://localhost:4310
 ```
-CLI: `node cli.js references/a.jpg product.jpg --video higgsfield`
+CLI: `node cli.js references/a.jpg product.jpg --face face.jpg --video fal`
 
 | env | 설명 |
 |---|---|
