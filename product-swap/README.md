@@ -5,6 +5,9 @@
 3. 레퍼런스 사람·포즈·배경은 그대로, **옷만 제품으로 교체**한 합성 이미지 생성 (OpenAI `gpt-image-2` 이미지 편집)
 4. 합성 이미지를 포즈만 왔다갔다 하는 짧은 세로 영상으로 변환 (Higgsfield 기본, Sora 선택)
 
+## fal.ai (기본)
+`FAL_KEY=...` 하나만 있으면 합성(`fal-ai/nano-banana/edit`)과 영상(`fal-ai/kling-video/v2.1/standard/image-to-video`) 모두 동작. 모델은 `FAL_IMAGE_MODEL`, `FAL_VIDEO_MODEL`로 변경. OpenAI 합성은 `IMAGE_PROVIDER=openai`.
+
 ## 실행
 ```bash
 cd product-swap
@@ -18,7 +21,7 @@ CLI: `node cli.js references/a.jpg product.jpg --video higgsfield`
 |---|---|
 | `IMAGE_MODEL` | 기본 `gpt-image-2` |
 | `INPUT_FIDELITY` | `gpt-image-1.5` 등 지원 모델에서만 `high` |
-| `VIDEO_PROVIDER` | `higgsfield`(기본) / `sora` |
+| `VIDEO_PROVIDER` | `fal`(기본) / `higgsfield` / `sora` |
 
 ## 남은 작업
 - Higgsfield 요청/응답 필드는 API 키 발급 후 실제 스펙에 맞춰 확인 필요 (`providers.js` 의 `higgsfieldVideo`)

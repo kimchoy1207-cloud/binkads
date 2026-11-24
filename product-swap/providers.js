@@ -14,7 +14,7 @@ Keep the product's exact color, material sheen, quilting/stitch pattern, collar 
 Fit it naturally to the body and pose with realistic folds, shadows and reflections. Do not add text, logos or watermarks.`;
 
 /** 레퍼런스 + 제품 → 제품만 교체된 이미지(PNG Buffer) */
-export async function composeImage({ referencePath, productPath, extraPrompt = '', size = '1024x1536', quality = 'high' }) {
+async function openaiComposeImage({ referencePath, productPath, extraPrompt = '', size = '1024x1536', quality = 'high' }) {
   const fd = new FormData();
   fd.append('model', process.env.IMAGE_MODEL || 'gpt-image-2');
   fd.append('image[]', await asBlob(referencePath), path.basename(referencePath));
@@ -84,8 +84,54 @@ async function higgsfieldVideo({ imagePath, prompt, seconds = 5 }) {
 }
 
 export const VIDEO_PROVIDERS = { sora: soraVideo, higgsfield: higgsfieldVideo };
-export async function makeVideo({ provider = process.env.VIDEO_PROVIDER || 'higgsfield', ...opts }) {
+export async function makeVideo({ provider = process.env.VIDEO_PROVIDER || 'fal', ...opts }) {
   const fn = VIDEO_PROVIDERS[provider];
   if (!fn) throw new Error(`알 수 없는 영상 프로바이더: ${provider}`);
   return fn({ prompt: VIDEO_PROMPT, ...opts });
+}
+
+// ── fal.ai ── FAL_KEY 필요. 이미지는 data URI로 전달(공개 URL 불필요).
+const FAL = 'https://queue.fal.run';
+const falHeaders = () => ({ Authorization: `Key ${process.env.FAL_KEY}`, 'Content-Type': 'application/json' });
+const dataUri = async (f) => `data:${mime(f)};base64,${(await readFile(f)).toString('base64')}`;
+async function falRun(app, input) {
+  if (!process.env.FAL_KEY) throw new Error('FAL_KEY 설정 필요');
+  const res = await fetch(`${FAL}/${app}`, { method: 'POST', headers: falHeaders(), body: JSON.stringify(input) });
+  const job = await res.json();
+  if (!res.ok) throw new Error(`fal 요청 실패: ${JSON.stringify(job).slice(0, 300)}`);
+  for (let i = 0; i < 240; i++) {
+    const s = await (await fetch(job.status_url, { headers: falHeaders() })).json();
+    if (s.status === 'COMPLETED') break;
+    if (s.status === 'FAILED' || s.error) throw new Error(`fal 실패: ${s.error || s.status}`);
+    await new Promise((r) => setTimeout(r, 3000));
+  }
+  const out = await fetch(job.response_url, { headers: falHeaders() });
+  const json = await out.json();
+  if (!out.ok) throw new Error(`fal 결과 오류: ${JSON.stringify(json).slice(0, 300)}`);
+  return json;
+}
+const download = async (url) => Buffer.from(await (await fetch(url)).arrayBuffer());
+
+/** fal 이미지 합성 (기본 nano-banana edit). 반환: 이미지 Buffer */
+export async function falComposeImage({ referencePath, productPath, extraPrompt = '' }) {
+  const out = await falRun(process.env.FAL_IMAGE_MODEL || 'fal-ai/nano-banana/edit', {
+    prompt: extraPrompt ? `${COMPOSE_PROMPT}\nAdditional: ${extraPrompt}` : COMPOSE_PROMPT,
+    image_urls: [await dataUri(referencePath), await dataUri(productPath)],
+    num_images: 1,
+  });
+  return download(out.images[0].url);
+}
+
+/** fal 이미지→영상 (기본 Kling 2.1). */
+async function falVideo({ imagePath, prompt, seconds = 5 }) {
+  const out = await falRun(process.env.FAL_VIDEO_MODEL || 'fal-ai/kling-video/v2.1/standard/image-to-video', {
+    prompt, image_url: await dataUri(imagePath), duration: Number(seconds) >= 10 ? '10' : '5',
+  });
+  return download(out.video.url);
+}
+VIDEO_PROVIDERS.fal = falVideo;
+
+/** IMAGE_PROVIDER=fal|openai (기본 fal) */
+export async function composeImage(opts) {
+  return (process.env.IMAGE_PROVIDER || 'fal') === 'openai' ? openaiComposeImage(opts) : falComposeImage(opts);
 }

@@ -9,6 +9,6 @@ await writeFile(out, await composeImage({ referencePath: ref, productPath: produ
 console.log('합성 이미지:', out);
 if (opt('--video')) {
   const mp4 = out.replace('.png', '.mp4');
-  await writeFile(mp4, await makeVideo({ provider: opt('--video'), imagePath: out, seconds: opt('--seconds') || '8' }));
+  await writeFile(mp4, await makeVideo({ provider: opt('--video'), imagePath: out, seconds: opt('--seconds') || '5' }));
   console.log('영상:', mp4);
 }
