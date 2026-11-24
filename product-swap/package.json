@@ -1,0 +1,9 @@
+{
+  "name": "bink-product-swap",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "레퍼런스 사진 + 제품컷 → 제품만 교체한 합성 이미지 → 포즈 숏폼 영상",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=22" }
+}
