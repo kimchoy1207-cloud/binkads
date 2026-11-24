@@ -114,7 +114,7 @@ const download = async (url) => Buffer.from(await (await fetch(url)).arrayBuffer
 
 /** fal 이미지 합성 (기본 nano-banana edit). 반환: 이미지 Buffer */
 export async function falComposeImage({ referencePath, productPath, extraPrompt = '' }) {
-  const out = await falRun(process.env.FAL_IMAGE_MODEL || 'fal-ai/nano-banana/edit', {
+  const out = await falRun(process.env.FAL_IMAGE_MODEL || 'fal-ai/nano-banana-pro/edit', {
     prompt: extraPrompt ? `${COMPOSE_PROMPT}\nAdditional: ${extraPrompt}` : COMPOSE_PROMPT,
     image_urls: [await dataUri(referencePath), await dataUri(productPath)],
     num_images: 1,

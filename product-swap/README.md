@@ -6,7 +6,7 @@
 4. 합성 이미지를 포즈만 왔다갔다 하는 짧은 세로 영상으로 변환 (Higgsfield 기본, Sora 선택)
 
 ## fal.ai (기본)
-`FAL_KEY=...` 하나만 있으면 합성(`fal-ai/nano-banana/edit`)과 영상(`fal-ai/kling-video/v2.1/standard/image-to-video`) 모두 동작. 모델은 `FAL_IMAGE_MODEL`, `FAL_VIDEO_MODEL`로 변경. OpenAI 합성은 `IMAGE_PROVIDER=openai`.
+`FAL_KEY=...` 하나만 있으면 합성(`fal-ai/nano-banana-pro/edit`)과 영상(`fal-ai/kling-video/v2.1/standard/image-to-video`) 모두 동작. 모델은 `FAL_IMAGE_MODEL`, `FAL_VIDEO_MODEL`로 변경. OpenAI 합성은 `IMAGE_PROVIDER=openai`.
 
 ## 실행
 ```bash
